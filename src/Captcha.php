@@ -25,6 +25,7 @@ use Intervention\Image\Gd\Font;
 use Intervention\Image\Geometry\Factories\LineFactory;
 use Intervention\Image\Image;
 use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 use Illuminate\Session\Store as Session;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Facades\Cache;
@@ -206,7 +207,6 @@ class Captcha
      *
      * @param Filesystem $files
      * @param Repository $config
-     * @param ImageManager $imageManager
      * @param Session $session
      * @param Hasher $hasher
      * @param Str $str
@@ -216,14 +216,13 @@ class Captcha
     public function __construct(
         Filesystem $files,
         Repository $config,
-        ImageManager $imageManager,
         Session $session,
         Hasher $hasher,
         Str $str
     ) {
         $this->files = $files;
         $this->config = $config;
-        $this->imageManager = $imageManager;
+        $this->imageManager = new ImageManager(new Driver());
         $this->session = $session;
         $this->hasher = $hasher;
         $this->str = $str;
